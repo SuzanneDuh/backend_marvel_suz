@@ -1,39 +1,41 @@
-const express = require("express");
-const router = express.Router();
+// tout mis en comm car ça me fait tout planter...
 
-// Route pr récup  liste d'annonces, en f° de filtres
-// Si aucun filtre envoyé,  route renvoit ttes les annonces
-router.get("/characters", async (req, res) => {
-  try {
-    // création objet ds lequel on  sotcke les diffrt filtres
-    let filters = {};
+// const express = require("express");
+// const router = express.Router();
 
-    if (req.query.name) {
-      filters.name = new RegExp(req.query.name, "i");
-    }
+// // Route pr récup  liste d'annonces, en f° de filtres
+// // Si aucun filtre envoyé,  route renvoit ttes les annonces
+// router.get("/characters", async (req, res) => {
+//   try {
+//     // création objet ds lequel on  sotcke les diffrt filtres
+//     let filters = {};
 
-    let sort = {};
+//     if (req.query.name) {
+//       filters.name = new RegExp(req.query.name, "i");
+//     }
 
-    let limit = Number(req.query.limit);
+//     let sort = {};
 
-    const characters = await Character.find(filters)
-      .populate({
-        path: "a",
-        select: "b",
-      })
-      .sort(sort);
+//     let limit = Number(req.query.limit);
 
-    //  ligne qui retourne  nb d'annonces trouvées en f° des filtres
-    const count = await Character.countDocuments(filters);
+//     const characters = await Character.find(filters)
+//       .populate({
+//         path: "a",
+//         select: "b",
+//       })
+//       .sort(sort);
 
-    res.json({
-      count: count,
-      offers: characters,
-    });
-  } catch (error) {
-    console.log(error.message);
-    res.status(400).json({ message: error.message });
-  }
-});
+//     //  ligne qui retourne  nb d'annonces trouvées en f° des filtres
+//     const count = await Character.countDocuments(filters);
 
-module.exports = router;
+//     res.json({
+//       count: count,
+//       offers: characters,
+//     });
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(400).json({ message: error.message });
+//   }
+// });
+
+// module.exports = router;

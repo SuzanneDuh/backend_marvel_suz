@@ -10,11 +10,12 @@ const app = express();
 app.use(cors());
 app.use(formidable());
 
-//tentative barre de recherche...
-const charactersRoutes = require("./routes/characters");
-app.use(charactersRoutes);
+//+++++++++++++++++++tentative BARRE DE RECHERCHE ++++++====++++++++++++++...
+// const charactersRoutes = require("./routes/characters");
+// app.use(charactersRoutes);
 
-// fin de la tentative, à enlever si ca bug
+// fin de la //+++++++++++++++++++tentative BARRE DE RECHERCHE ++++++====++++++++++++++...
+// , mis en comm car  ca bug
 
 // pr ne pas avoir à mettre à chaque fois l'URL de l'API en entier
 const apiUrl = "https://lereacteur-marvel-api.herokuapp.com";
