@@ -10,6 +10,12 @@ const app = express();
 app.use(cors());
 app.use(formidable());
 
+//tentative barre de recherche...
+const charactersRoutes = require("./routes/characters");
+app.use(charactersRoutes);
+
+// fin de la tentative, à enlever si ca bug
+
 // pr ne pas avoir à mettre à chaque fois l'URL de l'API en entier
 const apiUrl = "https://lereacteur-marvel-api.herokuapp.com";
 // const apiUrl =
@@ -19,12 +25,8 @@ const apiUrl = "https://lereacteur-marvel-api.herokuapp.com";
 
 // permet de verifier que  serveur ok qd hebergement sur heroku
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "bienvenue" });
+  res.status(200).json({ message: "bienvenue Suzon sur ton back" });
 });
-
-// route pr liste de comics
-
-// route pour liste de comis contenant des caractères spé
 
 // route personnages
 app.get("/characters", async (req, res) => {
@@ -36,12 +38,44 @@ app.get("/characters", async (req, res) => {
       `${apiUrl}/characters?apiKey=${process.env.MARVEL_API_KEY_SUZ}`
     );
     // nb:qd je mets le back sur heroku, NPO de bien mettre ma cleAPI ds les variables d'environnements++++
+    // et pr herroku faut aussi rajouter   "start": "node index.js"
+    // du coup c ok ça marche sur herroku et netlify
+    // https://apollo.lereacteur.io/course/602e4c6b3b125b00174a188f/61cf12a15202dc0018a7fb1a
+    // https://apollo.lereacteur.io/course/602e4c6b3b125b00174a188f/61cf12a15202dc0018a7fb1d
+    //
     // ci dessous, pr test avec postman localhost3000. Ok+ s'affiche bien ds postman!!
     // console.log(response.data);
     // res.json("Ok");
     // maintenant ci dessous, avec response.data : yes c ok , tte la route s'affiche bien ds postman.
     res.json(response.data);
     // dc ok j' arrive a recup des données de l'api et les renvoyer
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+});
+
+//ma route personnage est nickel, maintenant fr route comics...
+// route pr liste de comics
+app.get("/comics", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `${apiUrl}/comics?apiKey=${process.env.MARVEL_API_KEY_SUZ}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// route pour liste de comics contenant des caractères spé
+app.get("/comics/:characterId", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `${apiUrl}/comics/5fc8ba1fdc33470f788f88b3?apiKey=${process.env.MARVEL_API_KEY_SUZ}`
+    );
+    res.json(response.data);
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ message: error.message });
