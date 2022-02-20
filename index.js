@@ -1,5 +1,3 @@
-MARVEL_API_KEY_SUZ = Ex8Teuq234rtnn2A;
-
 const express = require("express");
 const formidable = require("express-formidable");
 const mongoose = require("mongoose");
@@ -29,7 +27,7 @@ app.get("/characters", async (req, res) => {
   try {
     // requete axiosà l'API MAarvel du reacteur
     // decla api URL plus haut dc pas besoin de mettre tte l'URL en entier
-    //mon API KEY marvel est dans fichier .env NPO mettre .env ds .gitignore...
+    //mon API KEY marvel est dans fichier .env, dc NPO de mettre .env ds .gitignore...
     const response = await axios.get(
       `${apiUrl}/characters?apiKey=${process.env.MARVEL_API_KEY_SUZ}`
     );
