@@ -1,3 +1,5 @@
+MARVEL_API_KEY_SUZ = Ex8Teuq234rtnn2A;
+
 const express = require("express");
 const formidable = require("express-formidable");
 const mongoose = require("mongoose");
