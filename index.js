@@ -50,7 +50,7 @@ app.get("/characters", async (req, res) => {
   }
 });
 
-// route pr liste de comics
+// route pr liste de comics //
 app.get("/comics", async (req, res) => {
   try {
     const response = await axios.get(
@@ -85,6 +85,24 @@ app.get("/comics", async (req, res) => {
       newurl = `${apiUrl}&title=${req.query.search}`;
     }
 
+    const response = await axios.get(newurl);
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// route pages.....
+app.get("/characters", async (req, res) => {
+  try {
+    let newurl = `https://lereacteur-marvel-api.herokuapp.com/characters?apiKey=${process.env.MARVEL_API_KEY_SUZ}`;
+
+    if (req.query.page) {
+      const skip = (req.query.page - 1) * 100;
+      newurl = `${newurl}&skip=${skip}`;
+    }
     const response = await axios.get(newurl);
 
     res.status(200).json(response.data);
