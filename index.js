@@ -10,13 +10,6 @@ const app = express();
 app.use(cors());
 app.use(formidable());
 
-//+++++++++++++++++++tentative BARRE DE RECHERCHE ++++++====++++++++++++++...
-// const charactersRoutes = require("./routes/characters");
-// app.use(charactersRoutes);
-
-// fin de la //+++++++++++++++++++tentative BARRE DE RECHERCHE ++++++====++++++++++++++...
-// , mis en comm car  ca bug
-
 // pr ne pas avoir à mettre à chaque fois l'URL de l'API en entier
 const apiUrl = "https://lereacteur-marvel-api.herokuapp.com";
 // const apiUrl =
@@ -56,7 +49,6 @@ app.get("/characters", async (req, res) => {
   }
 });
 
-//ma route personnage est nickel, maintenant fr route comics...
 // route pr liste de comics
 app.get("/comics", async (req, res) => {
   try {
@@ -70,11 +62,42 @@ app.get("/comics", async (req, res) => {
   }
 });
 
-// route pour liste de comics contenant des caractères spé
+// route pour liste de comics contenant un perso spé
 app.get("/comics/:characterId", async (req, res) => {
   try {
     const response = await axios.get(
-      `${apiUrl}/comics/5fc8ba1fdc33470f788f88b3?apiKey=${process.env.MARVEL_API_KEY_SUZ}`
+      `${apiUrl}/comics/${req.params.characterId}?apiKey=${process.env.MARVEL_API_KEY_SUZ}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// fonction search pour les comics - ca ne f° pas...
+app.get("/comics", async (req, res) => {
+  try {
+    let newurl = `${apiUrl}/comics?apiKey=${process.env.MARVEL_API_KEY_SUZ}`;
+
+    if (req.query.search) {
+      newurl = `${apiUrl}&title=${req.query.search}`;
+    }
+
+    const response = await axios.get(newurl);
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// route character spe id
+app.get("/character/:characterId", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `${apiUrl}/character/${req.params.characterId}?apiKey=${process.env.MARVEL_API_KEY_SUZ}`
     );
     res.json(response.data);
   } catch (error) {
